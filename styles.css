@@ -804,24 +804,6 @@ body {
   transform: rotate(90deg) scaleY(2.2);
 }
 
-/* Imitación de la animación de respiración mientras no haya GIF */
-.sprites__breathe {
-  transform-origin: bottom;
-  animation: breathe 2.4s ease-in-out infinite;
-}
-
-@keyframes breathe {
-  50% {
-    transform: scaleY(1.025);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sprites__breathe {
-    animation: none;
-  }
-}
-
 @media (max-width: 768px) {
   .sprites {
     grid-template-columns: 1fr 1fr;
