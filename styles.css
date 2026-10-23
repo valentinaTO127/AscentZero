@@ -1,0 +1,1228 @@
+:root {
+  --bg: #0f172a;
+  --slide-bg: #1e293b;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --accent: #38bdf8;
+  --transition: 0.5s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ---------- Contenedor de diapositivas ---------- */
+.deck {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 4rem 2rem;
+  text-align: center;
+  background: var(--slide-bg);
+  opacity: 0;
+  transform: translateX(100%);
+  transition: transform var(--transition), opacity var(--transition);
+  pointer-events: none;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.slide.prev {
+  transform: translateX(-100%);
+}
+
+.slide h1 {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  color: var(--accent);
+}
+
+.slide h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--accent);
+}
+
+.slide p,
+.slide li {
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  max-width: 50ch;
+  line-height: 1.6;
+}
+
+.slide ul {
+  text-align: left;
+  list-style: none;
+}
+
+.slide li::before {
+  content: "▸ ";
+  color: var(--accent);
+}
+
+.subtitle {
+  color: var(--muted);
+}
+
+/* ---------- Portada ---------- */
+.slide--cover {
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0;
+  padding: 6vh 7vw;
+  text-align: left;
+  color: #fff;
+  /* Capa oscura sobre la imagen para que el texto se lea bien */
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.6)),
+    url("assets/fondo.webp") center / cover no-repeat;
+}
+
+.cover__link {
+  align-self: flex-end;
+  color: #fff;
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  font-weight: 800;
+  font-style: italic;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.cover__link::after {
+  content: "↗";
+  display: inline-block;
+  margin-left: 0.15em;
+  font-style: normal;
+  transform: translateY(-0.4em);
+}
+
+.cover__link:hover {
+  color: var(--accent);
+}
+
+.slide .cover__title {
+  margin-top: 1vh;
+  font-size: clamp(4rem, 15vw, 11rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.slide .cover__subtitle {
+  margin-top: 6vh;
+  max-width: none;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-style: italic;
+  line-height: 1.1;
+}
+
+.slide .cover__authors {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+}
+
+.slide .cover__authors li {
+  max-width: none;
+  font-size: clamp(0.85rem, 1.4vw, 1.1rem);
+  font-style: italic;
+}
+
+.slide .cover__authors li::before {
+  content: none;
+}
+
+/* ---------- Diapositiva de dos columnas ---------- */
+.slide--split {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6vw;
+  padding: 6vh 7vw;
+  text-align: left;
+  color: #fff;
+  /* Misma imagen que la portada, pero más oscura para el texto largo */
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+    url("assets/fondo.webp") center / cover no-repeat;
+}
+
+.slide .split__title {
+  flex: 0 1 40%;
+  font-size: clamp(2.25rem, 4vw, 3.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.split__content {
+  flex: 0 1 46%;
+  display: flex;
+  flex-direction: column;
+  gap: 12vh;
+}
+
+.split__content h3 {
+  margin-bottom: 1rem;
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  font-weight: 800;
+}
+
+.slide .split__content p {
+  max-width: none;
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  line-height: 1.5;
+}
+
+.split__content strong {
+  font-weight: 800;
+}
+
+/* ---------- Diapositiva en cuadrícula ---------- */
+.slide--grid {
+  padding: 4vh 3vw;
+  background: #0a0a0a;
+}
+
+.grid {
+  display: grid;
+  /* --final-col: ancho de la columna de "Versión final" (casilla 2); se cambia por componente */
+  grid-template-columns: 1fr 1fr 1fr var(--final-col, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas:
+    "c1 c6 c3 c2"
+    "c4 c4 c4 c2";
+  gap: 1.25rem;
+  width: 100%;
+  height: 100%;
+}
+
+.grid__cell {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+  border: none;
+  border-radius: 12px;
+  background: #151515;
+  color: var(--muted);
+  font-size: 1.25rem;
+}
+
+/* Casilla con texto (título + párrafos) */
+.grid__cell--text {
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.75em;
+  overflow: auto;
+  color: var(--text);
+  font-size: clamp(0.75rem, 1.05vw, 1rem);
+  text-align: left;
+}
+
+.grid__cell--text h3 {
+  font-size: 1.2em;
+  font-weight: 800;
+}
+
+.slide .grid__cell--text p {
+  max-width: none;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+.grid__cell--text strong {
+  font-weight: 800;
+}
+
+/* Casilla con imagen: se muestra completa, sin recortar */
+.grid__cell--image {
+  position: relative;
+  align-items: center;
+  padding: 0;
+  overflow: hidden;
+  background: #282828;
+}
+
+.grid__cell--image img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Copia desenfocada de la imagen que rellena el espacio sobrante de la casilla */
+.grid__cell--image .grid__backdrop {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  filter: blur(24px);
+  transform: scale(1.2);
+}
+
+/* Degradado oscuro en la parte de abajo para que la etiqueta se lea sobre cualquier imagen */
+.grid__cell--image::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 1;
+  height: 35%;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+  pointer-events: none;
+}
+
+/* Texto sobre la imagen, abajo a la izquierda */
+.grid__caption {
+  position: absolute;
+  z-index: 2;
+  left: 1.25rem;
+  right: 1.25rem;
+  bottom: 1rem;
+  color: #fff;
+  font-size: clamp(1.25rem, 2.2vw, 2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: left;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Mientras se busca la imagen, no mostrar el texto alternativo */
+.grid__cell--image img:not([src]) {
+  visibility: hidden;
+}
+
+/* Aviso cuando falta la imagen de una casilla */
+.grid__missing {
+  margin: auto;
+  padding: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Casilla 1: solo texto, sin caja */
+.grid__cell--1 {
+  background: none;
+}
+
+/* Casilla "Versión Pixel Art-Render Final": color propio para destacar, a juego con el
+   verde azulado del escenario del juego */
+.grid .grid__cell--2.grid__cell--image {
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(94, 234, 212, 0.28), transparent 65%),
+    linear-gradient(160deg, #1f4f52, #0f2a2d);
+  /* Brillo: resplandor exterior verde azulado que late suavemente */
+  box-shadow:
+    0 0 18px rgba(94, 234, 212, 0.45),
+    0 0 42px rgba(94, 234, 212, 0.2),
+    inset 0 0 24px rgba(94, 234, 212, 0.15);
+  animation: final-glow 3s ease-in-out infinite;
+}
+
+@keyframes final-glow {
+  50% {
+    box-shadow:
+      0 0 26px rgba(94, 234, 212, 0.65),
+      0 0 60px rgba(94, 234, 212, 0.3),
+      inset 0 0 30px rgba(94, 234, 212, 0.22);
+  }
+}
+
+/* El sprite también brilla un poco */
+.grid .grid__cell--2 img:not(.grid__backdrop) {
+  filter: drop-shadow(0 0 10px rgba(94, 234, 212, 0.5));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grid .grid__cell--2.grid__cell--image {
+    animation: none;
+  }
+}
+
+/* Si la imagen tiene fondo sólido, su relleno desenfocado deja ver el color */
+.grid .grid__cell--2 .grid__backdrop {
+  opacity: 0.3;
+}
+
+/* Mismo color que el fondo de la captura de Vizcom */
+.grid__cell--4.grid__cell--image {
+  background: #161616;
+}
+
+/* Casilla que abre popups al hacer click */
+.grid__cell--clickable {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Solo para quien navega con teclado */
+.grid__cell--clickable:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.grid__hint {
+  position: absolute;
+  z-index: 2;
+  top: 0.75rem;
+  right: 1rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.grid__cell--clickable:hover .grid__hint,
+.grid__cell--clickable:focus-visible .grid__hint {
+  opacity: 1;
+}
+
+/* ---------- Popups ---------- */
+/* Ocupa la misma área de la cuadrícula que la casilla 4, encima de ella */
+.popups {
+  grid-area: c4;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  overflow: auto;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  outline: none;
+  cursor: pointer;
+}
+
+.popups[hidden] {
+  display: none;
+}
+
+.popup {
+  position: relative;
+  flex: 1 1 0;
+  max-width: 380px;
+  padding: 1.25rem 1.25rem 1.25rem;
+  text-align: left;
+  border-radius: 16px;
+  background: #1f1f1f;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  animation: popup-in 0.35s ease both;
+}
+
+/* El segundo popup aparece un poco después que el primero */
+.popup:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+@keyframes popup-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+}
+
+.popup__step {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.popup p {
+  font-size: clamp(0.8rem, 1.1vw, 1.05rem);
+  line-height: 1.45;
+}
+
+.grid__cell--1 { grid-area: c1; }
+.grid__cell--6 { grid-area: c6; }
+.grid__cell--3 { grid-area: c3; }
+.grid__cell--2 { grid-area: c2; }
+.grid__cell--4 { grid-area: c4; }
+
+/* ---------- Diapositiva de galería (9 casillas, numeradas como en el boceto) ---------- */
+.gallery {
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 1fr;
+  grid-template-rows: 3fr 3fr 2fr;
+  grid-template-areas:
+    "g1 g6  g3  g12"
+    "g7 g8  g8  g12"
+    "g9 g10 g11 g12";
+  gap: 1.25rem;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery__cell--1 { grid-area: g1; }
+.gallery__cell--3 { grid-area: g3; }
+.gallery__cell--6 { grid-area: g6; }
+.gallery__cell--7 { grid-area: g7; }
+.gallery__cell--8 { grid-area: g8; }
+.gallery__cell--9 { grid-area: g9; }
+.gallery__cell--10 { grid-area: g10; }
+.gallery__cell--11 { grid-area: g11; }
+.gallery__cell--12 { grid-area: g12; }
+
+/* Casillas sin etiqueta: no hace falta el degradado de abajo */
+.gallery__cell--plain::after {
+  content: none;
+}
+
+/* Los popups de la galería ocupan casillas más pequeñas: menos relleno */
+.gallery .popups {
+  padding: 0.5rem;
+}
+
+.gallery .popup {
+  padding: 0.75rem 1rem;
+}
+
+.gallery .popup__step {
+  margin-bottom: 0.35rem;
+  font-size: 0.7rem;
+}
+
+.slide .gallery .popup p {
+  font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+  line-height: 1.4;
+}
+
+/* Casilla con solo un título en vertical, de arriba abajo, sobre el fondo de la diapositiva */
+.gallery__title {
+  align-items: center;
+  padding: 0;
+  background: none;
+  overflow: hidden;
+}
+
+.slide .gallery__title h2 {
+  writing-mode: vertical-rl;
+  color: #fff;
+  font-size: clamp(1.75rem, 3.6vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.gallery__number {
+  align-self: flex-start;
+  margin-top: 1.5rem;
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: none;
+    grid-auto-rows: 1fr;
+    grid-template-areas:
+      "g1  g6"
+      "g3  g12"
+      "g7  g12"
+      "g8  g8"
+      "g9  g10"
+      "g11 g11";
+    gap: 0.75rem;
+  }
+}
+
+/* ---------- Diapositiva de variantes (tarjetas + título en vertical) ---------- */
+.variants {
+  display: flex;
+  gap: 2vw;
+  width: 100%;
+  height: 100%;
+}
+
+.variants__rows {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+/* La fila de arriba es más alta que la de abajo, como en el boceto */
+.variants__row {
+  display: flex;
+  gap: 1rem;
+  min-height: 0;
+}
+
+.variants__row:first-child {
+  flex: 5;
+}
+
+.variants__row:not(:first-child) {
+  flex: 3;
+}
+
+.variant {
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 1.25rem 1rem 1rem;
+  background: #282828;
+  overflow: hidden;
+}
+
+.variant img {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  object-fit: contain;
+}
+
+.variant img:not([src]) {
+  visibility: hidden;
+}
+
+.variant__caption {
+  color: #fff;
+  font-size: clamp(0.85rem, 1.5vw, 1.35rem);
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: left;
+}
+
+/* Título en vertical a la derecha (variantes y diapositiva única) */
+.slide .side-title {
+  writing-mode: vertical-rl;
+  align-self: center;
+  color: #fff;
+  font-size: clamp(1.75rem, 3.6vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .variants__row {
+    flex-wrap: wrap;
+  }
+
+  .variant {
+    flex-basis: 40%;
+  }
+}
+
+/* ---------- Diapositiva única de un componente (texto + frase + imagen + título) ---------- */
+.slide--solo {
+  flex-direction: row;
+  align-items: stretch;
+  gap: 2vw;
+  padding: 4vh 3vw;
+  background: #0a0a0a;
+  text-align: left;
+}
+
+.solo__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.solo__top {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+}
+
+.solo__top > * {
+  flex: 1;
+}
+
+.slide .solo__top .extra__note {
+  margin: 0;
+}
+
+/* Cuadrícula de tarjetas en lugar de una sola imagen */
+.solo__cards {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1.25rem;
+  min-height: 0;
+}
+
+.solo__cards .variant {
+  padding: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .slide--solo,
+  .solo__top {
+    flex-direction: column;
+  }
+}
+
+/* ---------- Diapositiva de sprites (esqueleto → partes → sprite, y animación) ---------- */
+.slide--sprites {
+  padding: 4vh 4vw;
+  background: #000;
+}
+
+.sprites {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr 1.3fr;
+  grid-template-rows: 1fr 1.25fr;
+  grid-template-areas:
+    "l1 skeleton parts"
+    "l2 gif      result";
+  gap: 2vh 2vw;
+  width: 100%;
+  height: 100%;
+}
+
+.sprites img {
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.slide .sprites__label {
+  color: #fff;
+  font-size: clamp(1.25rem, 2.6vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.sprites__label--top {
+  grid-area: l1;
+  align-self: start;
+}
+
+.sprites__label--bottom {
+  grid-area: l2;
+  align-self: center;
+}
+
+.sprites__skeleton {
+  grid-area: skeleton;
+  display: flex;
+  align-items: center;
+  gap: 1.5vw;
+  min-height: 0;
+}
+
+.sprites__skeleton img {
+  height: 100%;
+}
+
+.sprites__arrow {
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1;
+}
+
+.sprites__parts {
+  grid-area: parts;
+  align-self: center;
+  justify-self: start;
+}
+
+.sprites__gif,
+.sprites__result {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+}
+
+.sprites__gif {
+  grid-area: gif;
+  justify-content: flex-end;
+}
+
+.sprites__result {
+  grid-area: result;
+  justify-self: start;
+  width: 75%;
+}
+
+.sprites__gif img,
+.sprites__result img {
+  flex: 1;
+}
+
+.sprites__badge {
+  position: absolute;
+  top: 0;
+  right: 10%;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+/* Llave horizontal que une las partes con el sprite armado */
+.sprites__brace {
+  color: #fff;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 300;
+  line-height: 0.6;
+  transform: rotate(90deg) scaleY(2.2);
+}
+
+/* Imitación de la animación de respiración mientras no haya GIF */
+.sprites__breathe {
+  transform-origin: bottom;
+  animation: breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  50% {
+    transform: scaleY(1.025);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sprites__breathe {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .sprites {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr auto 1fr;
+    grid-template-areas:
+      "l1       l1"
+      "skeleton parts"
+      "l2       l2"
+      "gif      result";
+  }
+}
+
+/* ---------- Diapositiva de sprites en Alight Motion ---------- */
+.alight {
+  display: grid;
+  grid-template-columns: 1.65fr 1fr 1.05fr 1.25fr;
+  /* El espacio libre va encima de los títulos: tarjetas y títulos quedan abajo */
+  grid-template-rows: auto auto 1fr 45vh;
+  grid-template-areas:
+    "title  title  vector vector"
+    "bg     bg     phone1 phone2"
+    "label1 label2 phone1 phone2"
+    "card1  card2  phone1 phone2";
+  gap: 1.5vh 1.75vw;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+}
+
+.slide .alight__title {
+  grid-area: title;
+  color: #fff;
+  font-size: clamp(1.6rem, 3vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.slide .alight__text {
+  max-width: none;
+  color: #fff;
+  font-size: clamp(0.85rem, 1.25vw, 1.1rem);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.alight__text--vector {
+  grid-area: vector;
+}
+
+.alight__text--bg {
+  grid-area: bg;
+  margin-top: 4vh;
+  max-width: 40ch;
+}
+
+.alight__label {
+  align-self: end;
+  color: #fff;
+  font-size: clamp(1.1rem, 2vw, 1.75rem);
+  font-weight: 800;
+  text-align: center;
+}
+
+.alight__label--1 { grid-area: label1; }
+.alight__label--2 { grid-area: label2; }
+
+.alight__card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 0;
+  padding: 0.5rem;
+  border-radius: 16px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.alight__card--1 { grid-area: card1; }
+.alight__card--2 { grid-area: card2; }
+
+.alight img {
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Las capturas del móvil quedan alineadas abajo; la de Alight Motion es más alta */
+.alight__phone {
+  align-self: end;
+  justify-self: center;
+}
+
+.alight__phone--1 {
+  grid-area: phone1;
+  max-height: 85%;
+}
+
+.alight__phone--2 {
+  grid-area: phone2;
+}
+
+@media (max-width: 768px) {
+  .alight {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: none;
+    grid-template-areas:
+      "title  title"
+      "vector vector"
+      "bg     bg"
+      "label1 label2"
+      "card1  card2"
+      "phone1 phone2";
+  }
+}
+
+/* ---------- Diapositiva de curvas de movimiento ---------- */
+.curves {
+  display: grid;
+  grid-template-columns: minmax(0, 4.1fr) minmax(0, 5fr) minmax(0, 1.5fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "text   title  side"
+    "frames phones side";
+  gap: 2.5vh 1.5vw;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+}
+
+.slide .curves__text {
+  grid-area: text;
+  max-width: none;
+  color: #fff;
+  font-size: clamp(0.85rem, 1.25vw, 1.1rem);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.slide .curves__title {
+  grid-area: title;
+  align-self: center;
+  color: #fff;
+  font-size: clamp(1.5rem, 3vw, 2.75rem);
+  font-weight: 800;
+  text-align: center;
+}
+
+/* Filas de imágenes: cada imagen ocupa su parte y se ajusta sin recortarse */
+.curves__frames,
+.curves__phones {
+  display: flex;
+  gap: 1.25vw;
+  min-height: 0;
+}
+
+.curves__frames { grid-area: frames; }
+.curves__phones { grid-area: phones; align-items: flex-end; }
+
+.curves__frames img,
+.curves__phones img {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.curves__frames img {
+  height: 100%;
+}
+
+/* Las capturas de las curvas, algo más pequeñas y pegadas abajo */
+.curves__phones {
+  justify-content: center;
+}
+
+.curves__phones img {
+  flex: 0 1 42%;
+  align-self: flex-end;
+  object-position: bottom;
+}
+
+/* Columna derecha: la nota en el centro y la captura pequeña abajo */
+.curves__side {
+  grid-area: side;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 0;
+}
+
+.slide .curves__note {
+  margin: auto 0;
+  max-width: none;
+  color: #fff;
+  font-size: clamp(0.8rem, 1.2vw, 1.05rem);
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.curves__side img {
+  min-height: 0;
+  max-width: 100%;
+  max-height: 40%;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .curves {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas: "title" "text" "frames" "phones" "side";
+  }
+}
+
+/* ---------- Diapositiva de sprites del enemigo ---------- */
+.enemy {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  grid-template-areas:
+    "title title"
+    "walkl conceptl"
+    "walk  concept";
+  gap: 1.5vh 2.5vw;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+}
+
+.slide .enemy__title {
+  grid-area: title;
+  color: #fff;
+  font-size: clamp(1.6rem, 3vw, 2.75rem);
+  font-weight: 800;
+}
+
+.enemy__label {
+  color: #fff;
+  font-size: clamp(1rem, 1.8vw, 1.6rem);
+  font-weight: 800;
+}
+
+.enemy__label--walk { grid-area: walkl; }
+.enemy__label--concept { grid-area: conceptl; }
+
+.enemy__walk {
+  grid-area: walk;
+  align-self: center;
+  width: 100%;
+  min-height: 0;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Arte conceptual: dos bocetos arriba y la ilustración ancha debajo */
+.enemy__concept {
+  grid-area: concept;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.75rem;
+  min-height: 0;
+}
+
+.enemy__concept img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.enemy__concept .enemy__concept-wide {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+  .enemy {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas: "title" "walkl" "walk" "conceptl" "concept";
+  }
+
+  .enemy__concept {
+    height: 60vh;
+  }
+}
+
+/* ---------- Diapositiva con una imagen a pantalla completa ---------- */
+.slide--fullscreen {
+  padding: 0;
+  background: #000;
+}
+
+.slide--fullscreen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Diapositiva extra de un componente (texto + una imagen) ---------- */
+.slide--extra {
+  flex-direction: row;
+  align-items: stretch;
+  gap: 3vw;
+  padding: 4vh 3vw;
+  background: #0a0a0a;
+  text-align: left;
+}
+
+.extra__text {
+  flex: 0 0 38%;
+  display: flex;
+  flex-direction: column;
+}
+
+.extra__info {
+  background: none;
+  overflow: visible;
+}
+
+/* La frase grande queda centrada en el espacio que sobra debajo del texto */
+.slide .extra__note {
+  margin: auto 0;
+  padding: 0 1.5rem;
+  max-width: none;
+  font-size: clamp(1.35rem, 2.34vw, 2.16rem);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.extra__image {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Sin etiqueta, así que no hace falta el degradado de abajo */
+.extra__image::after {
+  content: none;
+}
+
+@media (max-width: 768px) {
+  .slide--extra {
+    flex-direction: column;
+  }
+
+  .extra__text {
+    flex: none;
+  }
+
+  .slide .extra__note {
+    margin: 1rem 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: none;
+    grid-auto-rows: 1fr;
+    grid-template-areas:
+      "c1 c6"
+      "c3 c2"
+      "c4 c4";
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide--split {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .split__content {
+    gap: 2rem;
+  }
+}
+
+/* ---------- Barra de progreso ---------- */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 10;
+}
+
+.progress__bar {
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  transition: width var(--transition);
+}
+

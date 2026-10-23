@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AscentZero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,800;1,400;1,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Barra de progreso -->
+  <div class="progress"><div class="progress__bar" id="progressBar"></div></div>
+
+  <main class="deck" id="deck">
+    <section class="slide slide--cover">
+      <a class="cover__link" href="#">Paso a paso de los assets</a>
+      <h1 class="cover__title">Assets</h1>
+      <p class="cover__subtitle">Ascent Zero</p>
+      <ul class="cover__authors">
+        <li>Sebastian Aguilar</li>
+        <li>Andrés Felipe</li>
+        <li>David Bonilla</li>
+        <li>Valentina Torres</li>
+        <li>Juan Felipe</li>
+        <li>Juan Sebastian</li>
+      </ul>
+    </section>
+
+    <section class="slide slide--split">
+      <h2 class="split__title">Desarrollo de asset y sprites</h2>
+      <div class="split__content">
+        <article>
+          <h3>Assets</h3>
+          <p>
+            Su concepto se desarrolló primero en un <strong>modelado 3D</strong> hecho en
+            <strong>Blender</strong>, al cual luego se le añadieron materiales y texturas,
+            para pasarlo a Vizcom y con ayuda de esta herramienta pasarlo a una versión
+            <strong>Pixel Art</strong>
+          </p>
+        </article>
+        <article>
+          <h3>Sprites</h3>
+          <p>
+            Su concepto se desarrolló primero en un arte conceptual en el que se definieron
+            las acciones del personaje y el monstruo, y luego usando
+            <strong>Manabit, Alight motion y Krita</strong> se desarrollaron a mano los
+            sprites en pixelart de ciertos movimientos.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Aquí se insertan las diapositivas de componentes (ver componentes.js) -->
+    <div id="components"></div>
+
+    <!-- Sprites de la protagonista: imágenes en assets/sprites/protagonista/ -->
+    <section class="slide slide--sprites">
+      <div class="sprites">
+        <h2 class="sprites__label sprites__label--top">Sprites Protagonista<br>(Manabit)</h2>
+        <div class="sprites__skeleton">
+          <img src="assets/sprites/protagonista/esqueleto.png" alt="Esqueleto del sprite de la protagonista">
+          <span class="sprites__arrow" aria-hidden="true">→</span>
+        </div>
+        <img class="sprites__parts" src="assets/sprites/protagonista/partes.png"
+          alt="Partes del sprite: pelo, ropa, brazos, piernas y zapatos">
+
+        <h2 class="sprites__label sprites__label--bottom">Animación Respiración<br>(Quieta)</h2>
+        <div class="sprites__gif">
+          <!-- Si hay un GIF, basta con cambiar el src y quitar la clase sprites__breathe -->
+          <img class="sprites__breathe" src="assets/sprites/protagonista/sprite.png"
+            alt="Animación de respiración de la protagonista">
+          <span class="sprites__badge">GIF</span>
+        </div>
+        <div class="sprites__result">
+          <span class="sprites__brace" aria-hidden="true">}</span>
+          <img src="assets/sprites/protagonista/sprite.png" alt="Sprite de la protagonista armado">
+        </div>
+      </div>
+    </section>
+
+    <!-- Sprites de la protagonista en Alight Motion -->
+    <section class="slide slide--sprites">
+      <div class="alight">
+        <h2 class="alight__title">Sprites Protagonista<br>(Alight Motion)</h2>
+        <p class="alight__text alight__text--vector">
+          Vectorización por partes: Se vectorizó el personaje por partes, para poder animarlos
+          individualmente mediante keyframes y curvas de movimiento en Alight Motion.
+        </p>
+        <p class="alight__text alight__text--bg">
+          Eliminación del fondo: Se eliminó el fondo del sprite original del personaje en estado
+          quieto para facilitar su edición.
+        </p>
+
+        <h3 class="alight__label alight__label--1">Arte conceptual</h3>
+        <h3 class="alight__label alight__label--2">Arte conceptual</h3>
+        <div class="alight__card alight__card--1">
+          <img src="assets/sprites/protagonista/arte-conceptual-1.webp" alt="Bocetos de la protagonista corriendo">
+        </div>
+        <div class="alight__card alight__card--2">
+          <img src="assets/sprites/protagonista/arte-conceptual-2.webp" alt="Boceto de la protagonista quieta">
+        </div>
+
+        <img class="alight__phone alight__phone--1" src="assets/sprites/protagonista/eliminar-fondo.webp"
+          alt="Eliminación del fondo del sprite en una app de edición">
+        <img class="alight__phone alight__phone--2" src="assets/sprites/protagonista/alight-motion.webp"
+          alt="El personaje vectorizado por partes en Alight Motion">
+      </div>
+    </section>
+
+    <!-- Curvas de movimiento y secuencia de imágenes en Alight Motion -->
+    <section class="slide slide--sprites">
+      <div class="curves">
+        <p class="curves__text">
+          Secuenciación de imágenes: Alight Motion, permite exportar la animación en fotogramas
+          individuales.
+        </p>
+        <h2 class="curves__title">Curvas De Movimiento</h2>
+
+        <div class="curves__frames">
+          <img src="assets/sprites/protagonista/secuencia-1.webp"
+            alt="Fotogramas exportados: 11 de 11 y 6 de 12 con desenfoque de movimiento">
+          <img src="assets/sprites/protagonista/secuencia-2.webp"
+            alt="Fotogramas exportados: 2 de 11 y 6 de 11">
+        </div>
+        <div class="curves__phones">
+          <img src="assets/sprites/protagonista/curvas-1.webp"
+            alt="Curva de movimiento del brazo con la antorcha en Alight Motion">
+          <img src="assets/sprites/protagonista/curvas-2.webp"
+            alt="Curva de movimiento del cuerpo en Alight Motion">
+        </div>
+
+        <div class="curves__side">
+          <p class="curves__note">
+            *También se experimentó colocar efectos como el desenfoque de movimiento.
+          </p>
+          <img src="assets/sprites/protagonista/desenfoque.webp"
+            alt="Curva de movimiento de las piernas con desenfoque">
+        </div>
+      </div>
+    </section>
+
+    <!-- Sprites del enemigo: imágenes en assets/sprites/enemigo/ -->
+    <section class="slide slide--sprites">
+      <div class="enemy">
+        <h2 class="enemy__title">Sprites Enemigo</h2>
+        <h3 class="enemy__label enemy__label--walk">Ciclo de caminata</h3>
+        <h3 class="enemy__label enemy__label--concept">Arte conceptual</h3>
+
+        <img class="enemy__walk" src="assets/sprites/enemigo/ciclo-caminata.webp"
+          alt="Ciclo de caminata del enemigo en 8 fotogramas">
+
+        <div class="enemy__concept">
+          <img src="assets/sprites/enemigo/arte-conceptual-1.webp" alt="Boceto del enemigo de cuerpo entero">
+          <img src="assets/sprites/enemigo/arte-conceptual-2.webp" alt="Boceto del enemigo atrapando a la protagonista">
+          <img class="enemy__concept-wide" src="assets/sprites/enemigo/arte-conceptual-3.webp"
+            alt="Ilustración del enemigo sosteniendo a la protagonista">
+        </div>
+      </div>
+    </section>
+
+    <!-- Última diapositiva: escena del juego a pantalla completa -->
+    <section class="slide slide--fullscreen">
+      <img src="assets/escena-final.webp"
+        alt="La protagonista con un cráneo de triceratops junto a la estantería en el escenario del juego">
+    </section>
+  </main>
+
+  <script src="componentes.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
